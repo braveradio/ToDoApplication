@@ -18,7 +18,7 @@ namespace ToDoApplication.Services
         {
             PATH = path;
         }
-        public BindingList<TodoModel> loadData()
+        public BindingList<TodoModel> LoadData()
         {
             var fileExists = File.Exists(PATH);
             if (!fileExists)
@@ -33,7 +33,7 @@ namespace ToDoApplication.Services
             }
         }
 
-        public void SavaData(BindingList<TodoModel> todoDataList)
+        public void SavaData(object todoDataList)
         {
             using (StreamWriter writer = File.CreateText(PATH))
             {

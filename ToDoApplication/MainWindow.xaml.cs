@@ -35,12 +35,18 @@ namespace ToDoApplication
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _fileIOService = new FileIOService(PATH);
-            _todoDataList = new BindingList<TodoModel>()
+
+            try
             {
-                new TodoModel() {Text = "test"},
-                new TodoModel() {Text = "fdsaf"},
-                new TodoModel() {Text = "vajda", isDone = true}
-            };
+                _todoDataList = _fileIOService.LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
+            
+
             dgTodoList.ItemsSource = _todoDataList;
             _todoDataList.ListChanged += _todoDataList_ListChanged;
 
@@ -52,7 +58,15 @@ namespace ToDoApplication
                 e.ListChangedType == ListChangedType.ItemDeleted ||
                 e.ListChangedType == ListChangedType.ItemDeleted)
             {
-
+                try
+                {
+                    _fileIOService.SavaData(sender);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Close();
+                }
             }
 
         }
